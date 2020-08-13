@@ -17,13 +17,13 @@ remove_outliers <- function(x, na.rm = TRUE, ...) {
 }
 
 
-BastlerinManual$Type <- as.factor(BastlerinManual$Type)
-CocacolaManual$Type <- as.factor(CocacolaManual$Type)
-FriscoManual$Type <- as.factor(FriscoManual$Type)
-KoaliumManual$Type <- as.factor(KoaliumManual$Type)
-PaulManual$Type <- as.factor(PaulManual$Type)
+BastlerinManual$Type <- as.factor(BastlerinManual$Type)  #BastlerinManual is the dataframe name
+CocacolaManual$Type <- as.factor(CocacolaManual$Type)    #CocacolaManual is the dataframe name
+FriscoManual$Type <- as.factor(FriscoManual$Type)        #FriscoManual is the dataframe name
+KoaliumManual$Type <- as.factor(KoaliumManual$Type)      #KoaliumManual is the dataframe name
+PaulManual$Type <- as.factor(PaulManual$Type)            #PaulManual is the dataframe name
 
-CocacolaManual$Type <- factor(CocacolaManual$Type , levels=c("HFLV", "LFLV", "HFSV", "LFSV"))
+CocacolaManual$Type <- factor(CocacolaManual$Type , levels=c("HFLV", "LFLV", "HFSV", "LFSV"))                  # Arranging levels in all dataframes for easier comparison to graphs
 FriscoManual$Type <- factor(FriscoManual$Type , levels=c("HFLV", "LFLV", "HFSV", "LFSV"))
 BastlerinManual$Type <- factor(BastlerinManual$Type , levels=c("HFLV", "LFLV", "HFSV", "LFSV"))
 PaulManual$Type <- factor(PaulManual$Type , levels=c("HFLV", "LFLV", "HFSV", "LFSV"))
@@ -32,18 +32,18 @@ KoaliumManual$Type <- factor(KoaliumManual$Type , levels=c("HFLV", "LFLV", "HFSV
 
 
 
-CocacolaManual = CocacolaManual[CocacolaManual$Cocacola!= 0, ]
+CocacolaManual = CocacolaManual[CocacolaManual$Cocacola!= 0, ]                                                 # Removing zero values that occured due to technical problems or otherwise
 PaulManual = PaulManual[PaulManual$Paul!= 0, ]
 FriscoManual = FriscoManual[FriscoManual$Frisco!= 0, ]
 BastlerinManual = BastlerinManual[BastlerinManual$Bastlerin!= 0, ]
 KoaliumManual = KoaliumManual[KoaliumManual$Koalium!= 0, ]
 
-BastlerinManual$TFD_clean<-remove_outliers(BastlerinManual$Bastlerin)
-BastlerinManual$TFD_normclean<-normalize(BastlerinManual$TFD_clean)
-ggplot(BastlerinManual, aes(, y=TFD_normclean, fill=Type)) + 
+BastlerinManual$TFD_clean<-remove_outliers(BastlerinManual$Bastlerin)                                          # Calling remove outilers function to remove outliers values
+BastlerinManual$TFD_normclean<-normalize(BastlerinManual$TFD_clean)                                            # Normalizing to remove the speed factor
+ggplot(BastlerinManual, aes(, y=TFD_normclean, fill=Type)) +                                                   # Plotting a boxplot too visualize data
   geom_boxplot()
 
-CocacolaManual$TFD_clean<-remove_outliers(CocacolaManual$Cocacola)
+CocacolaManual$TFD_clean<-remove_outliers(CocacolaManual$Cocacola) 
 CocacolaManual$TFD_normclean<-normalize(CocacolaManual$TFD_clean)
 ggplot(CocacolaManual, aes(, y=TFD_normclean, fill=Type)) + 
   geom_boxplot()
@@ -69,7 +69,7 @@ ggplot(PaulManual, aes(, y=TFD_normclean, fill=Type)) +
 
  --------------------------------------------
   
-PaulManual$Freq <- NA
+PaulManual$Freq <- NA                                                                                                      # Adding column holding either high frequency or low frequrency regardless the vowel type
 index <- c("HFLV", "HFSV", "LFLV", "LFSV")
 values <- c("HF", "HF", "LF", "LF")
 PaulManual$Freq <- values[match(PaulManual$Type, index)]
@@ -108,7 +108,7 @@ ggplot(KoaliumManual, aes(, y=TFD_normclean, fill=Freq)) +
 ----------------------------------------------
   
   PaulManual$Vowel <- NA
-index <- c("HFLV", "HFSV", "LFLV", "LFSV")
+index <- c("HFLV", "HFSV", "LFLV", "LFSV")                                                                                                   # Adding column holding either long vowel or short vowel regardless the frequency
 values <- c("LV", "SV", "LV", "SV")
 PaulManual$Vowel <- values[match(PaulManual$Type, index)]
 ggplot(PaulManual, aes(, y=TFD_normclean, fill=Vowel)) + 
